@@ -11,7 +11,7 @@
 
 from Tkinter	import *
 from sys		import *
-from random		import choice
+from random		import choice, shuffle
 from types		import *
 import tkMessageBox
 from os   import getlogin
@@ -218,10 +218,14 @@ class GameBoard:
 		self.cangroup = True
 		self.Columns = []
 		for col in xrange(self.cols):
-			tmp = []
-			for _ in xrange(self.rows):
-				color = choice(['red', 'green', 'blue', 'yellow'])
-				tmp  += [(color, False)]
+			n = self.rows/4
+			
+			tmp = [('red',    False) for i in xrange(n)] + \
+			      [('green',  False) for i in xrange(n)] + \
+			      [('blue',   False) for i in xrange(n)] + \
+			      [('yellow', False) for i in xrange(n)]
+			
+			shuffle(tmp)
 			self.Columns.append ( tmp )
 		
 		self.__map() # update view
@@ -245,7 +249,7 @@ class GameBoard:
 
 		if not self.cangroup: # no groups, nothing to do
 			return
-		if self.markedcount > 1: # if two or more element grouo has marked
+		if self.markedcount > 1: # if two or more element group are marked
 
 			# tell about it
 			self.__call_callback(ADD_POINTS, self.markedcount)
@@ -259,6 +263,7 @@ class GameBoard:
 
 			# update view
 			self.__map()
+			self.canvas.tk.call('event', 'generate', self.canvas._w, '<Motion>', '-x', event.x, '-y', event.y)
 	
 	def Mark(self, event):
 		"""
