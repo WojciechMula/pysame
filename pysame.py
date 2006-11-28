@@ -3,11 +3,8 @@
 #
 # Wojciech Mu³a, wojciech_mula[at]poczta[dot]onet[dot]pl
 # 
-# 6.11.2004
-# 7.11.2004
-# 9.11.2004
-#
-# GNU GPL
+# Licencse: BSD
+# $Id: pysame.py,v 1.3 2006-11-28 22:14:52 wojtek Exp $
 
 from Tkinter	import *
 from sys		import *
@@ -263,7 +260,7 @@ class GameBoard:
 
 			# update view
 			self.__map()
-			self.canvas.tk.call('event', 'generate', self.canvas._w, '<Motion>', '-x', event.x, '-y', event.y)
+			self.canvas.event_generate('<Motion>', x=event.x, y=event.y)
 	
 	def Mark(self, event):
 		"""
@@ -375,7 +372,7 @@ gameboard = GameBoard(root, ROWS, COLS, CELLSIZE, callback)
 def newgame():
 	global gameboard, info, points
 
-	if gameboard.CanGroup():
+	if gameboard.CanGroup() and points:
 		if not tkMessageBox.askyesno('Question', "You haven't finished the game. Do you want to start new game?"):
 			return
 
