@@ -4,7 +4,7 @@
 # Wojciech Mu³a, wojciech_mula[at]poczta[dot]onet[dot]pl
 # 
 # Licencse: BSD
-# $Id: pysame.py,v 1.3 2006-11-28 22:14:52 wojtek Exp $
+# $Id: pysame.py,v 1.4 2006-12-04 23:05:33 wojtek Exp $
 
 from Tkinter	import *
 from sys		import *
@@ -384,7 +384,7 @@ def newgame():
 points = 0
 info = StringVar()
 info.set("Welcome in PySame")
-Label(root, textvariable=info).pack(side=LEFT)
+Label(root, font=("Halvetica", -24), padx=3, pady=3, textvariable=info).pack(side=LEFT)
 
 Button(root, text="New game", command=newgame).pack(side=RIGHT)
 
