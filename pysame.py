@@ -1,10 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-2 -*-
+# $Date: 2007-06-15 12:01:55 $, $Revision: 1.5 $
 #
-# Wojciech Mu³a, wojciech_mula[at]poczta[dot]onet[dot]pl
+# short description
 # 
-# Licencse: BSD
-# $Id: pysame.py,v 1.4 2006-12-04 23:05:33 wojtek Exp $
+# Author: Wojciech Mu³a
+# e-mail: wojciech_mula@poczta.onet.pl
+# www:    http://www.mula.w.pl
+#
+# License: BSD
 
 from Tkinter	import *
 from sys		import *
@@ -405,4 +409,4 @@ try:
 except:
 	pass
 
-# vim: ts=4 sw=4 ai
+# vim: ts=4 sw=4 ai nowrap noexpandtab
