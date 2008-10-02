@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-2 -*-
-# $Date: 2007-06-15 12:01:55 $, $Revision: 1.5 $
+# $Date: 2008-10-02 21:29:50 $, $Revision: 1.6 $
 #
 # short description
 # 
 # Author: Wojciech Mu³a
 # e-mail: wojciech_mula@poczta.onet.pl
-# www:    http://www.mula.w.pl
+# www:    http://www.republika.pl/wmula/
 #
 # License: BSD
 
