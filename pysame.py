@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: iso-8859-2 -*-
 # $Date: 2008-10-02 21:29:50 $, $Revision: 1.6 $
 #
@@ -10,18 +10,18 @@
 #
 # License: BSD
 
-from Tkinter	import *
+from tkinter	import *
 from sys		import *
 from random		import choice, shuffle
 from types		import *
-import tkMessageBox
+import tkinter.messagebox
 from os   import getlogin
 from time import localtime
 
 def tk_center_window(window, W, H):
 	w = window.winfo_screenwidth()
 	h = window.winfo_screenheight()
-	window.geometry("%dx%d+%d+%d" % (W, H, (w-W)/2, (h-H)/2))
+	window.geometry("%dx%d+%d+%d" % (W, H, (w-W) // 2, (h-H) // 2))
 
 GAME_OVER			= 0
 ADD_POINTS			= 1
@@ -29,7 +29,7 @@ POSSIBLE_POINTS		= 2
 NO_SELECTION		= 3
 
 def toint(x):
-	if type(x) is IntType or type(x) is LongType:
+	if isinstance(x, int) or isinstance(x, float):
 		return x
 	else:
 		raise TypeError("Integer expeced")
@@ -61,13 +61,13 @@ class GameBoard:
 		
 		# create Tkinter objects (balls)
 		self.array = []
-		for row in xrange(rows):
+		for row in range(rows):
 			self.array.append([(None,False)]*cols)
 
 		r = self.cellsize
-		for row in xrange(self.rows):
+		for row in range(self.rows):
 			y = row*r
-			for col in xrange(self.cols):
+			for col in range(self.cols):
 				x = col*r
 				self.array[self.rows-row-1][col] = (self.canvas.create_oval(x,y,x+r,y+r, fill="#555"), 'empty', False)
 
@@ -105,8 +105,8 @@ class GameBoard:
 		"""
 		Maps internal structures onto screen.
 		"""
-		for col in xrange(self.cols):
-			for row in xrange(self.rows):
+		for col in range(self.cols):
+			for row in range(self.rows):
 				try:
 					color, marked = self.Columns[col][row]
 					oval, rcolor, cmarked = self.array[row][col]
@@ -154,7 +154,7 @@ class GameBoard:
 			return 0
 
 		count = 0
-		for col in xrange(len(self.Columns)):
+		for col in range(len(self.Columns)):
 			for row, item in enumerate(self.Columns[col]):
 				color, marked = self.Columns[col][row]
 				if marked:
@@ -169,7 +169,7 @@ class GameBoard:
 		"""
 
 		# remove marked balls
-		for col in xrange(len(self.Columns)):
+		for col in range(len(self.Columns)):
 			self.Columns[col] = [item for item in self.Columns[col] if item[1]==False]
 
 		# remove empty columns
@@ -182,7 +182,7 @@ class GameBoard:
 		exist a pair of adjecent balls with same color.
 		"""
 		
-		for col in xrange(len(self.Columns)):
+		for col in range(len(self.Columns)):
 			for row, item in enumerate(self.Columns[col]):
 				color, _ = item # colors of 'this' ball
 
@@ -218,13 +218,13 @@ class GameBoard:
 		"""
 		self.cangroup = True
 		self.Columns = []
-		for col in xrange(self.cols):
-			n = self.rows/4
+		for col in range(self.cols):
+			n = self.rows // 4
 			
-			tmp = [('red',    False) for i in xrange(n)] + \
-			      [('green',  False) for i in xrange(n)] + \
-			      [('blue',   False) for i in xrange(n)] + \
-			      [('yellow', False) for i in xrange(n)]
+			tmp = [('red',    False) for i in range(n)] + \
+			      [('green',  False) for i in range(n)] + \
+			      [('blue',   False) for i in range(n)] + \
+			      [('yellow', False) for i in range(n)]
 			
 			shuffle(tmp)
 			self.Columns.append ( tmp )
@@ -275,8 +275,8 @@ class GameBoard:
 			return
 
 		# translate mouse coords into board coords
-		row = self.rows-event.y/self.cellsize-1
-		col = event.x/self.cellsize
+		row = self.rows - event.y // self.cellsize - 1
+		col = event.x // self.cellsize
 
 		try:
 			color, marked = self.Columns[col][row]
@@ -330,7 +330,7 @@ h = root.winfo_screenheight()
 ROWS = 12
 COLS = 20
 
-CELLSIZE = min( h/(ROWS+1), w/(COLS+1) )
+CELLSIZE = min(h // (ROWS+1), w // (COLS+1))
 
 tk_center_window(root, COLS*CELLSIZE, (ROWS+1)*CELLSIZE)
 root.resizable(0,0)
@@ -352,7 +352,7 @@ def callback(what, data):
 		else:
 			info.set("You've finished with score %d points!" % points)
 
-		date  = map(str, localtime())
+		date  = list(map(str, localtime()))
 		date  = "-".join(date[:3]) + " " + ":".join(date[3:5])
 		gamer = getlogin()
 
@@ -377,7 +377,7 @@ def newgame():
 	global gameboard, info, points
 
 	if gameboard.CanGroup() and points:
-		if not tkMessageBox.askyesno('Question', "You haven't finished the game. Do you want to start new game?"):
+		if not tkinter.messagebox.askyesno('Question', "You haven't finished the game. Do you want to start new game?"):
 			return
 
 	points = 0
@@ -396,10 +396,7 @@ root.mainloop()
 
 try:
 	file = open('pysame.score', 'w')
-	def sf(a,b):
-		return cmp(b[1], a[1])
-
-	highscore.sort(sf)
+	highscore.sort(key=lambda item: item[1], reverse=True)
 	highscore = highscore[:500]
 
 	for gamer, points, date in highscore:
