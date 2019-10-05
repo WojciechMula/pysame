@@ -400,7 +400,7 @@ try:
 		return cmp(b[1], a[1])
 
 	highscore.sort(sf)
-	highscore = highscore[:10]
+	highscore = highscore[:500]
 
 	for gamer, points, date in highscore:
 		file.write("%s\t%d\t%s\n" % (gamer, points, date) )
